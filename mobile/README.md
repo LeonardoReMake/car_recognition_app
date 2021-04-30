@@ -1,1 +1,1 @@
-# Mobile app for MoreTech hack
+# Mobile app for recognising cars

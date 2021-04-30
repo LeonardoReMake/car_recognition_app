@@ -1,1 +1,1 @@
-# moretech_hack
+# Android application for recognising cars. 
