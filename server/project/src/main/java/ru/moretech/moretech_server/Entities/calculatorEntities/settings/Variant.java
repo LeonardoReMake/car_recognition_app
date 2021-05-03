@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Variant {
-    private String id;
-    private String language;
-    private String name;
+    private String id = "0";
+    private String language = "rus";
+    private String name = "default";
 
     public Variant() {
     }

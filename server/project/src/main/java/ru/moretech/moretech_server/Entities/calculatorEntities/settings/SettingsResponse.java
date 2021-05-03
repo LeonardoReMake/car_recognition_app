@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SettingsResponse {
     private String anchor;
     @JsonProperty
-    private String[] clientTypes = {"fds", "dsfds", "dsf"};
+    private String[] clientTypes = {"default"};
     private double cost;
     private double initialFee;
     private int kaskoDefaultValue;

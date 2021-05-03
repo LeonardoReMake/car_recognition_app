@@ -10,6 +10,8 @@ public class Car {
     private String titleRus;
     private List<String> photos;
 
+	public Car() {}
+
     public Car(String carBrand, int minprice, String photo, String title, String titleRus, List<String> photos) {
         this.carBrand = carBrand;
         this.minprice = minprice;

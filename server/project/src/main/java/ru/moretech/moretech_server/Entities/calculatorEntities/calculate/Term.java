@@ -1,31 +1,10 @@
 package ru.moretech.moretech_server.Entities.calculatorEntities.calculate;
 
-public class Term {
-    private boolean filled;
-    private int max;
-    private int min;
-
-    public boolean isFilled() {
-        return filled;
+public class Term extends RangeAbs {
+    public Term() {
     }
 
-    public void setFilled(boolean filled) {
-        this.filled = filled;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
+    public Term(boolean filled, int max, int min) {
+        super(filled, max, min);
     }
 }

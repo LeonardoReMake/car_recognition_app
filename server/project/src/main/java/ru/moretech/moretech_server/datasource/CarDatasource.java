@@ -29,7 +29,7 @@ public class CarDatasource extends Datasource {
     }
 
     private void initCars() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 1; i++) {
             String photo1 = "https://avatars.mds.yandex.net/get-autoru-vos/2049647/97faaddb8c6371be591ea9d76d4d4c2e/456x342n";
             String photo2 = "https://i.pinimg.com/originals/bf/6a/45/bf6a4535f0a4dc84adc69bd5b9902dd6.jpg";
             List<String> photos = new ArrayList<>();

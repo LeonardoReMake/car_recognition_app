@@ -1,31 +1,11 @@
 package ru.moretech.moretech_server.Entities.calculatorEntities.calculate;
 
-public class Cost {
-    private boolean filled;
-    private int max;
-    private int min;
+public class Cost extends RangeAbs {
 
-    public boolean isFilled() {
-        return filled;
+    public Cost() {
     }
 
-    public void setFilled(boolean filled) {
-        this.filled = filled;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
+    public Cost(boolean filled, int max, int min) {
+        super(filled, max, min);
     }
 }
