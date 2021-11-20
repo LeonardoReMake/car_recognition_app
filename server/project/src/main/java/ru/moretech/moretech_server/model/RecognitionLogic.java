@@ -5,20 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.moretech.moretech_server.Entities.MarketplaceEntities.BodyType;
-import ru.moretech.moretech_server.Entities.MarketplaceEntities.CarBrand;
-import ru.moretech.moretech_server.Entities.MarketplaceEntities.CarModel;
-import ru.moretech.moretech_server.Entities.MarketplaceEntities.Marketplace;
 import ru.moretech.moretech_server.Entities.RecognitionEntities.CarResponse;
+import ru.moretech.moretech_server.Entities.RecognitionEntities.CarSuggestionsResponse;
 import ru.moretech.moretech_server.Entities.RecognitionEntities.Content;
 import ru.moretech.moretech_server.Entities.clientEntities.Car;
+import ru.moretech.moretech_server.Entities.healthEntities.HealthResponse;
 import ru.moretech.moretech_server.api.MLServerApi;
 import ru.moretech.moretech_server.datasource.CarDatasource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class RecognitionLogic {
@@ -30,18 +26,43 @@ public class RecognitionLogic {
     @Autowired
     private CarDatasource carDatasource;
 
-    public CarResponse recognizeExtended(Content content) {
+    public HealthResponse checkRecognitionServer() {
         try {
-            return recognitionApi.getCarResponse(content);
+            return recognitionApi.checkHealth();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            return HealthResponse.fail("Internal error, while parsing response from recognition server. Try to connect later.");
+        }
+    }
+
+    public CarResponse recognizeExtended(Content content) {
+        HealthResponse healthResponse = checkRecognitionServer();
+        if (healthResponse.isOk()) {
+            try {
+                CarResponse carResponse = recognitionApi.getCarResponse(content);
+                carResponse.setHealth(healthResponse);
+                return carResponse;
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                CarResponse carResponse = new CarResponse();
+                carResponse.setProbabilities(null);
+                carResponse.setHealth(healthResponse);
+                return carResponse;
+            }
+        } else {
             CarResponse carResponse = new CarResponse();
-            carResponse.setProbabilities(null);
+            carResponse.setHealth(healthResponse);
             return carResponse;
         }
     }
 
-    public List<Car> suggest(Content content) {
+    public CarSuggestionsResponse suggest(Content content) {
+        CarSuggestionsResponse carSuggestionsResponse = new CarSuggestionsResponse();
+        HealthResponse healthResponse = checkRecognitionServer();
+        carSuggestionsResponse.setHealthResponse(healthResponse);
+
+        if (!healthResponse.isOk()) return carSuggestionsResponse;
+
         String[] suggestedCars;
         try {
             suggestedCars = recognitionApi.getCarSuggestion(content);
@@ -76,6 +97,7 @@ public class RecognitionLogic {
             }
         }
 
-        return listedCars;
+        carSuggestionsResponse.setCars(listedCars);
+        return carSuggestionsResponse;
     }
 }

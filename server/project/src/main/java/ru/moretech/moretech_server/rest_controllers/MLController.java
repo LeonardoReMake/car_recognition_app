@@ -9,6 +9,7 @@ import ru.moretech.moretech_server.Entities.MarketplaceEntities.CarBrand;
 import ru.moretech.moretech_server.Entities.MarketplaceEntities.CarModel;
 import ru.moretech.moretech_server.Entities.MarketplaceEntities.Marketplace;
 import ru.moretech.moretech_server.Entities.RecognitionEntities.CarResponse;
+import ru.moretech.moretech_server.Entities.RecognitionEntities.CarSuggestionsResponse;
 import ru.moretech.moretech_server.Entities.RecognitionEntities.Content;
 import ru.moretech.moretech_server.Entities.clientEntities.Car;
 import ru.moretech.moretech_server.api.MLServerApi;
@@ -33,7 +34,7 @@ public class MLController {
     }
 
     @PostMapping("/suggestion")
-    public List<Car> getCarResponseWithConf(@RequestBody Content content) throws JsonProcessingException {
+    public CarSuggestionsResponse getCarResponseWithConf(@RequestBody Content content) throws JsonProcessingException {
         return recognitionLogic.suggest(content);
     }
 }
